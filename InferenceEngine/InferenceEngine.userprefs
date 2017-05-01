@@ -1,0 +1,17 @@
+﻿<Properties StartupItem="InferenceEngine\InferenceEngine.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="InferenceEngine\SearchClass.cs">
+    <Files>
+      <File FileName="InferenceEngine\Program.cs" Line="33" Column="51" />
+      <File FileName="InferenceEngine\Loader.cs" Line="1" Column="1" />
+      <File FileName="InferenceEngine\Term.cs" Line="1" Column="1" />
+      <File FileName="InferenceEngine\Statement.cs" Line="1" Column="1" />
+      <File FileName="InferenceEngine\BackwardsChaining.cs" Line="12" Column="18" />
+      <File FileName="InferenceEngine\SearchClass.cs" Line="11" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
