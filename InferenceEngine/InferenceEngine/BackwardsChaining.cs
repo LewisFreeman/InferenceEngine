@@ -24,6 +24,11 @@ namespace InferenceEngine
 			} while (before != after);
 			return true;
 		}
+
+		public override string GetKBString ()
+		{
+			return "Test";
+		}
 	}
 }
 

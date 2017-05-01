@@ -10,6 +10,7 @@ namespace InferenceEngine
 		}
 
 		public abstract bool Execute (List<Statement> statements, List<Term> terms, List<Term> extras, string goal);
+		public abstract string GetKBString ();
 
 		public string CreateCondition (List<Term> terms)
 		{

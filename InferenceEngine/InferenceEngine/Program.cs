@@ -14,6 +14,15 @@ namespace InferenceEngine
 				Console.WriteLine ("----------------------------");
 				System.Environment.Exit (0);
 			}
+			List<String> Options = new List<string> ();
+			LoadOptions (Options);
+			if (!(Options.Contains (args [0])))
+			{
+				Console.WriteLine ("----------------------------");
+				Console.WriteLine ("Please enter a valid command");
+				Console.WriteLine ("----------------------------");
+				System.Environment.Exit (0);
+			}
 			Loader Loader = new Loader (args [1]);
 			List<Term> Terms = new List<Term> ();
 			List<Statement> Statements = new List<Statement> ();
@@ -37,12 +46,46 @@ namespace InferenceEngine
 					}
 				}
 			}
-			ForwardsChaining BC = new ForwardsChaining ();
-			BC.Execute (Statements, Terms, Extras, Loader.GetGoal);
-			foreach (Term t in Terms)
+			SearchClass Method = GetSearchType (args[0]);
+			if (Method.Execute (Statements, Terms, Extras, Loader.GetGoal))
 			{
-				Console.WriteLine (t.Name + " " + t.Value);
+				Console.WriteLine ("YES: " + Method.GetKBString());
 			}
+			else
+			{
+				Console.WriteLine ("NO");
+			}
+		}
+
+		private static void LoadOptions (List<String> Options)
+		{
+			Options.Add("FC");
+			Options.Add("BC");
+			Options.Add("TT");
+			Options.Add("FORWARDSCHAINING");
+			Options.Add("BACKWARDSCHAINING");
+			Options.Add("TRUTHTABLE");
+			Options.Add("TRUTHTABLECHECKING");
+		}
+
+		private static SearchClass GetSearchType (string Method)
+		{
+			SearchClass SearchClass = new ForwardsChaining ();
+			switch (Method)
+			{
+			case "FC":
+			case "FORWARDSCHAINING":
+				break;
+			case "BC":
+			case "BACKWARDSCHAINING":
+				SearchClass = new BackwardsChaining ();
+				break;
+			case "TT":
+			case "TRUTHTABLE":
+			case "TRUTHTABLECHECKING":
+				break;
+			}
+			return SearchClass;
 		}
 	}
 }
