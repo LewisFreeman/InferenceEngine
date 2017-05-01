@@ -17,7 +17,7 @@ namespace InferenceEngine
 			Loader Loader = new Loader (args [1]);
 			List<Term> Terms = new List<Term> ();
 			List<Statement> Statements = new List<Statement> ();
-			List<String> Extras = new List<String> ();
+			List<Term> Extras = new List<Term> ();
 			foreach (string s in Loader.GetStatements)
 			{
 				if (s.Contains ("=>"))
@@ -26,7 +26,15 @@ namespace InferenceEngine
 				}
 				else
 				{
-					Extras.Add (s);
+					if (Terms.Find (p => p.Name == s) != null)
+					{
+						Extras.Add (Terms.Find (p => p.Name == s));	
+					}
+					else
+					{
+						Terms.Add(new Term (s));
+						Extras.Add (Terms.Find (p => p.Name == s));
+					}
 				}
 			}
 			ForwardsChaining BC = new ForwardsChaining ();

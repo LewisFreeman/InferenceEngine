@@ -9,7 +9,7 @@ namespace InferenceEngine
 		{
 		}
 
-		public abstract bool Execute (List<Statement> statements, List<Term> terms, List<String> extras, string goal);
+		public abstract bool Execute (List<Statement> statements, List<Term> terms, List<Term> extras, string goal);
 
 		public string CreateCondition (List<Term> terms)
 		{

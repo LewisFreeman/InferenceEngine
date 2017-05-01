@@ -9,7 +9,7 @@ namespace InferenceEngine
 		{
 		}
 
-		public override bool Execute (List<Statement> statements, List<Term> terms, List<String> extras, string goal)
+		public override bool Execute (List<Statement> statements, List<Term> terms, List<Term> extras, string goal)
 		{
 			terms.Find (p => p.Name == goal).Value = true;
 			string before = "";
