@@ -83,6 +83,7 @@ namespace InferenceEngine
 			case "TT":
 			case "TRUTHTABLE":
 			case "TRUTHTABLECHECKING":
+				SearchClass = new TruthTable ();
 				break;
 			}
 			return SearchClass;

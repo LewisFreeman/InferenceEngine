@@ -8,11 +8,13 @@ namespace InferenceEngine
 	{
 		private List<Term> implies;
 		private List<Term> implied;
+		private bool TTValue;
 
 		public Statement (string statement, List<Term> terms)
 		{
 			implies = new List<Term> ();
 			implied = new List<Term> ();
+			TTValue = false;
 			Create (statement, terms);
 		}
 
@@ -57,6 +59,18 @@ namespace InferenceEngine
 						implied.Add (terms.Find (p => p.Name == str));
 					}
 				}
+			}
+		}
+
+		public void ResolveTT ()
+		{
+			if ((IsAllTrue (implies)) && (!(IsAllTrue (implied))))
+			{
+				TTValue = false;
+			}
+			else
+			{
+				TTValue = true;
 			}
 		}
 
@@ -134,6 +148,14 @@ namespace InferenceEngine
 				}
 			}
 			return result;
+		}
+
+		public bool getTTValue
+		{
+			get
+			{
+				return TTValue;
+			}
 		}
 	}
 }
