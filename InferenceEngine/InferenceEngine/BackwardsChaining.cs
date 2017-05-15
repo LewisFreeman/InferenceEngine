@@ -14,7 +14,14 @@ namespace InferenceEngine
 
 		public override bool Execute (List<Statement> statements, List<Term> terms, List<Term> extras, string goal)
 		{
-			terms.Find (p => p.Name == goal).Value = true;
+			try 
+			{
+				terms.Find (p => p.Name == goal).Value = true;
+			}
+			catch
+			{
+				return false;
+			}
 			string before = "";
 			string after = "";
 			do {

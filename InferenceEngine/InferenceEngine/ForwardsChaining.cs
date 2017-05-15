@@ -28,13 +28,20 @@ namespace InferenceEngine
 				}
 				after = CreateCondition(terms);
 			} while (before != after);
-			if (terms.Find (p => p.Name == goal).Value == true)
+			try
 			{
-				KB.Add(goal);
-				ConstructKB (statements, terms, terms.Find (p => p.Name == goal));
-				AddExtrasToKB (extras);
+				if (terms.Find (p => p.Name == goal).Value == true)
+				{
+					KB.Add(goal);
+					ConstructKB (statements, terms, terms.Find (p => p.Name == goal));
+					AddExtrasToKB (extras);
+				}
+				else
+				{
+					return false;
+				}	
 			}
-			else
+			catch
 			{
 				return false;
 			}
