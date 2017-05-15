@@ -11,7 +11,6 @@ namespace InferenceEngine
 
 		public TruthTable ()
 		{
-			KB = new List<string> ();
 			states = new List<bool> ();
 		}
 
@@ -78,6 +77,7 @@ namespace InferenceEngine
 
 		private void ConstructKB (List<Statement> statements, List<Term> terms, Term goal)
 		{
+			/*
 			foreach (Statement s in statements)
 			{
 				if (s.Implied.Contains (terms.Find (p => p.Name == goal)))
@@ -85,6 +85,7 @@ namespace InferenceEngine
 					KB++;
 				}
 			}
+			*/
 		}
 
 		private void AddExtrasToKB (List<Term> extras)
