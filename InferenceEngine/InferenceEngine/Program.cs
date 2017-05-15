@@ -7,7 +7,7 @@ namespace InferenceEngine
 	{
 		public static void Main (string[] args)
 		{
-			if (args.Length != 2)
+			if ((args.Length < 2) || (args.Length > 3))
 			{
 				Console.WriteLine ("----------------------------");
 				Console.WriteLine ("Please enter a valid command");
@@ -16,7 +16,7 @@ namespace InferenceEngine
 			}
 			List<String> Options = new List<string> ();
 			LoadOptions (Options);
-			if (!(Options.Contains (args [0])))
+			if (!(Options.Contains (args [0].ToUpper())))
 			{
 				Console.WriteLine ("----------------------------");
 				Console.WriteLine ("Please enter a valid command");
@@ -46,7 +46,17 @@ namespace InferenceEngine
 					}
 				}
 			}
-			SearchClass Method = GetSearchType (args[0]);
+			SearchClass Method = GetSearchType (args[0], false);
+			try
+			{
+				if (args [2].ToUpper() == "OUTPUT")
+				{
+					Method = GetSearchType (args[0], true);
+				}
+			}
+			catch
+			{
+			}
 			if (Method.Execute (Statements, Terms, Extras, Loader.GetGoal))
 			{
 				Console.WriteLine ("YES: " + Method.GetKBString());
@@ -68,7 +78,7 @@ namespace InferenceEngine
 			Options.Add("TRUTHTABLECHECKING");
 		}
 
-		private static SearchClass GetSearchType (string Method)
+		private static SearchClass GetSearchType (string Method, bool output)
 		{
 			SearchClass SearchClass = new ForwardsChaining ();
 			switch (Method)
@@ -83,7 +93,7 @@ namespace InferenceEngine
 			case "TT":
 			case "TRUTHTABLE":
 			case "TRUTHTABLECHECKING":
-				SearchClass = new TruthTable ();
+				SearchClass = new TruthTable (output);
 				break;
 			}
 			return SearchClass;

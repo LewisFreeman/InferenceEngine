@@ -8,15 +8,19 @@ namespace InferenceEngine
 		int KB;
 		List<bool> states;
 		bool result;
+		int count;
+		bool output;
 
-		public TruthTable ()
+		public TruthTable (bool Output)
 		{
 			states = new List<bool> ();
+			output = Output;
 		}
 
 		public override bool Execute (List<Statement> statements, List<Term> terms, List<Term> extras, string goal)
 		{
 			result = true;
+			count = 1;
 			RecursiveResolve (statements, terms, 0, goal);
 			return result;
 		}
@@ -53,26 +57,51 @@ namespace InferenceEngine
 						premises = false;
 					}
 				}
+				if (output)
+				{
+					Output (statements, terms, goal);
+				}
+				count++;
 				if ((premises) && (!(goalstate)))
 				{
-					SearchClass BC = new BackwardsChaining ();
-
-					foreach (Statement s in statements)
-					{
-						Console.Write (s.getTTValue + " ");
-					}
-					Console.Write (" : " + terms.Find (p => p.Name == goal).Value);
-					Console.WriteLine ();
-					foreach (Term t in terms)
-					{
-						Console.Write (t.Name + " : " + t.Value + " | ");
-					}
-					Console.WriteLine ();
-					Console.WriteLine ("--------------------------------------------------------------------------------------");
 					result = false;
 				}
 			}
 
+		}
+
+		private void Output (List<Statement> statements, List<Term> terms, string goal)
+		{
+			Console.Write (count + ":" + "\t");
+			foreach (Statement s in statements)
+			{
+				for (int i = 0; i < s.Implies.Count ; i++)
+				{
+					Console.Write (s.Implies[i].Name);
+					if (i < s.Implies.Count - 1)
+					{
+						Console.Write ("&");
+					}
+				}
+				Console.Write ("=>");
+				for (int i = 0; i < s.Implied.Count ; i++)
+				{
+					Console.Write (s.Implied[i].Name);
+					if (i < s.Implied.Count - 1)
+					{
+						Console.Write ("&");
+					}
+				}
+				Console.Write (" : " + s.getTTValue + " | ");
+			}
+			Console.WriteLine ();
+			Console.Write ("\t");
+			foreach (Term t in terms)
+			{
+				Console.Write (t.Name + " : " + t.Value + " | ");
+			}
+			Console.WriteLine ();
+			Console.WriteLine ("---------------------------------------------------------------------------------------------------------------------------------------------------");
 		}
 
 		private void ConstructKB (List<Statement> statements, List<Term> terms, Term goal)
@@ -96,6 +125,13 @@ namespace InferenceEngine
 		public override string GetKBString ()
 		{
 			return "";
+		}
+
+		public bool SetOutput {
+			set
+			{
+				output = value;
+			}
 		}
 	}
 }
