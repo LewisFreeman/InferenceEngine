@@ -18,12 +18,27 @@ namespace InferenceEngine
 
 		public override bool Execute (List<Statement> statements, List<Term> terms, List<Term> extras, string goal)
 		{
-			models = 0;
-			count = 1;
-			RecursiveResolve (statements, terms, extras, 0, goal);
-			if (models > 0)
+			bool check = false;
+			foreach (Statement s in statements) 
 			{
-				return true;
+				if (s.Implied.Contains (terms.Find (p => p.Name == goal)))
+				{
+					check = true;
+				}
+			}
+			if (extras.Contains (terms.Find (p => p.Name == goal)))
+			{
+				check = true;
+			}
+			if (check)
+			{
+				models = 0;
+				count = 1;
+				RecursiveResolve (statements, terms, extras, 0, goal);
+				if (models > 0)
+				{
+					return true;
+				}
 			}
 			return false;
 		}
