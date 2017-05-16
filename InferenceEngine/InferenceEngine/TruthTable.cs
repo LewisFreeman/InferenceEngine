@@ -5,9 +5,8 @@ namespace InferenceEngine
 {
 	public class TruthTable : SearchClass
 	{
-		int KB;
+		int models;
 		List<bool> states;
-		bool result;
 		int count;
 		bool output;
 
@@ -19,13 +18,17 @@ namespace InferenceEngine
 
 		public override bool Execute (List<Statement> statements, List<Term> terms, List<Term> extras, string goal)
 		{
-			result = true;
+			models = 0;
 			count = 1;
-			RecursiveResolve (statements, terms, 0, goal);
-			return result;
+			RecursiveResolve (statements, terms, extras, 0, goal);
+			if (models > 0)
+			{
+				return true;
+			}
+			return false;
 		}
 
-		private void RecursiveResolve (List<Statement> statements, List<Term> terms, int n, string goal)
+		private void RecursiveResolve (List<Statement> statements, List<Term> terms, List<Term> extras, int n, string goal)
 		{
 			if (n < terms.Count)
 			{
@@ -34,25 +37,27 @@ namespace InferenceEngine
 				{
 					s.ResolveTT ();
 				}
-				RecursiveResolve (statements, terms, n + 1, goal);
+				RecursiveResolve (statements, terms, extras, n + 1, goal);
 				terms [n].Value = false;
 				foreach (Statement s in statements)
 				{
 					s.ResolveTT ();
 				}
-				RecursiveResolve (statements, terms, n + 1, goal);	
+				RecursiveResolve (statements, terms, extras, n + 1, goal);	
 			}
 			else
 			{
 				bool premises = true;
-				bool goalstate = true;
 				foreach (Statement s in statements)
 				{
-					if (s.Implied.Contains (terms.Find (p => p.Name == goal)))
+					if (!(s.getTTValue))
 					{
-						goalstate = s.getTTValue;
+						premises = false;
 					}
-					else if (s.getTTValue)
+				}
+				foreach (Term t in extras)
+				{
+					if (!(t.Value))
 					{
 						premises = false;
 					}
@@ -62,12 +67,11 @@ namespace InferenceEngine
 					Output (statements, terms, goal);
 				}
 				count++;
-				if ((premises) && (!(goalstate)))
+				if ((premises) && (terms.Find (p => p.Name == goal).Value))
 				{
-					result = false;
+					models++;
 				}
 			}
-
 		}
 
 		private void Output (List<Statement> statements, List<Term> terms, string goal)
@@ -104,27 +108,9 @@ namespace InferenceEngine
 			Console.WriteLine ("---------------------------------------------------------------------------------------------------------------------------------------------------");
 		}
 
-		private void ConstructKB (List<Statement> statements, List<Term> terms, Term goal)
-		{
-			/*
-			foreach (Statement s in statements)
-			{
-				if (s.Implied.Contains (terms.Find (p => p.Name == goal)))
-				{
-					KB++;
-				}
-			}
-			*/
-		}
-
-		private void AddExtrasToKB (List<Term> extras)
-		{
-			
-		}
-
 		public override string GetKBString ()
 		{
-			return "";
+			return models.ToString();
 		}
 
 		public bool SetOutput {

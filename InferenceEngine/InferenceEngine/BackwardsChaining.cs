@@ -20,6 +20,10 @@ namespace InferenceEngine
 			}
 			catch
 			{
+				if (extras.Contains (terms.Find (p => p.Name == goal)))
+				{
+					return true;
+				}
 				return false;
 			}
 			string before = "";
