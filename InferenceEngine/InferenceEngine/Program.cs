@@ -108,7 +108,7 @@ namespace InferenceEngine
 		private static SearchClass GetSearchType (string Method, bool output)
 		{
 			SearchClass SearchClass = new ForwardsChaining ();
-			switch (Method)
+			switch (Method.ToUpper())
 			{
 			case "FC":
 			case "FORWARDSCHAINING":

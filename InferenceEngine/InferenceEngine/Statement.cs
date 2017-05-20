@@ -161,6 +161,7 @@ namespace InferenceEngine
 		/// <summary>
 		/// readonly property to get the list of impling terms
 		/// </summary>
+		/// <returns>List<Term></returns>
 		public List<Term> Implies
 		{
 			get
@@ -172,6 +173,7 @@ namespace InferenceEngine
 		/// <summary>
 		/// readonly property to get the list of implied terms
 		/// </summary>
+		/// <returns>List<Term></returns>
 		public List<Term> Implied
 		{
 			get
@@ -218,6 +220,7 @@ namespace InferenceEngine
 		/// <summary>
 		/// readonly property to get the truth table value of this statement
 		/// </summary>
+		/// <returns>bool</returns>
 		public bool getTTValue
 		{
 			get
