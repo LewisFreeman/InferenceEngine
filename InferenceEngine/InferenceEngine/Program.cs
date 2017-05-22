@@ -28,15 +28,12 @@ namespace InferenceEngine
 				Console.WriteLine ("----------------------------");
 				System.Environment.Exit (0);
 			}
-
 			//Load in the file requested
 			Loader Loader = new Loader (args [1]);
-
 			//Initialize lists to store data from the file
 			List<Term> Terms = new List<Term> ();
 			List<Statement> Statements = new List<Statement> ();
 			List<Term> Extras = new List<Term> ();
-
 			//Move data from the loader class into the proper lists
 			foreach (string s in Loader.GetStatements)
 			{
@@ -58,7 +55,6 @@ namespace InferenceEngine
 					Extras.Add (Terms.Find (p => p.Name == s));	
 				}
 			}
-
 			//Initialize the method to be used
 			SearchClass Method = GetSearchType (args[0], false);
 			try
@@ -72,7 +68,6 @@ namespace InferenceEngine
 			catch
 			{
 			}
-
 			//Execute the inference and output the responce
 			if (Method.Execute (Statements, Terms, Extras, Loader.GetGoal))
 			{
